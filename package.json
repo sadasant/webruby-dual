@@ -1,0 +1,13 @@
+{
+    "name": "webruby-dual",
+    "description": "webruby-dual",
+    "homepage" : "https://github.com/sadasant/webruby-dual",
+    "author": "Daniel Rodriguez <sadasant@cloudwalk.io>",
+    "repository" : {
+        "type" : "git",
+         "url" : "https://github.com/sadasant/webruby-dual.git"
+    },
+    "dependencies": {
+        "connect" : "2.9.0"
+    }
+}
