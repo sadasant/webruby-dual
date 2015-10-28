@@ -1,15 +1,17 @@
-## Steps
+﻿## Steps
 
-1. Node stuff!!
+1. Put your `webruby.js` in `webruby-location/`.
+
+2. Node stuff!!
 
 ```
 npm install
 node server.js
 ```
 
-2. Go to <http://localhost:8080/>
+3. Go to <http://localhost:8080/>
 
-3. Follow the instructions on the web!
+4. Follow the instructions on the web!
 
 ## License
 
