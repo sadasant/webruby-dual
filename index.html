@@ -47,4 +47,12 @@ pre {
 	<pre><code>web.mruby_compile("p 'hi'", function(bytes, source, file_name){
   web.run_bytecode(bytes);
 });</code></pre>
+	<p>
+	For this last one I'm using a custom function I added in a
+	<a href="https://github.com/sadasant/webruby/tree/cloudwalk">fork</a>,
+	so on normal webrubys it will not work as intended.
+	</p>
+	<pre><code>// Looking under the hood:
+web.verbose(true);
+web.run_source("p 'hi'");</code></pre>
 </html>

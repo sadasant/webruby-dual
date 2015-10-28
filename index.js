@@ -3,7 +3,7 @@
     var $;
 
     web.settings = {
-        workers: false,
+        workers: false
     };
 
     web.paths = {

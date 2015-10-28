@@ -14,6 +14,10 @@
         printErr: console.error.bind(console)
     };
 
+    web.verbose = function(bool) {
+        webruby.set_print_level(bool ? 1 : 0);
+    }
+
     web.run_source = function(source) {
         webruby.run_source(source);
     }
@@ -40,7 +44,7 @@
 
     head.appendChild(webruby_script);
 
-    webruby = new window.WEBRUBY();
+    webruby = new window.WEBRUBY({ print_level: 0 });
 
     console.log("Iframe ready.");
 })();
