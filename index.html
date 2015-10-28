@@ -37,12 +37,14 @@ pre {
 		<b style="color:#04f">no workers for chrome</b>
 		and
 		<b style="color:#f40">workers for firefox</b>.
+		<br>
+		<br>
+		Remember to wait until it says it's <b>ready</b> on the javascript
+		console, as in <i>Iframe ready</i> or <i>Worker ready</i>.
 	</p>
 	<h3>Quick scripts</h3>
 	<pre><code>web.run_source("p 'hi'");</code></pre>
-	<pre><code>var bytes;
-web.mruby_compile("p 'hi'", function(_bytes, source, file_name){
-  bytes = _bytes;
-});
-web.run_bytecode(bytes);</code></pre>
+	<pre><code>web.mruby_compile("p 'hi'", function(bytes, source, file_name){
+  web.run_bytecode(bytes);
+});</code></pre>
 </html>

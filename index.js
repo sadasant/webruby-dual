@@ -53,16 +53,27 @@
         web.worker.onerror   = workerOnError;
         web.worker.send      = workerSendMessage;
 
+        web.run_source = function(source) {
+            web.worker.send("run_source", source);
+        };
+
+        web.run_bytecode = function(bytecode) {
+            web.worker.send("run_bytecode", bytecode);
+        };
+
         web.mruby_compile = function(code, callback) {
             web._mruby_compile_callback = callback;
-            web.workerSendMessage("mruby_compile", code);
+            web.worker.send("mruby_compile", code);
         };
     }
 
     function workerOnMessage(e) {
         var msg = JSON.parse(e.data);
-        console.log("worker.onmessage", msg.type, msg.content);
+        // console.log("worker.onmessage", msg.type, msg.content);
         switch (msg.type) {
+        case "echo":
+            console.log.apply(console, msg.content);
+            return;
         case "alert":
             alert(msg.content);
             return;
@@ -70,28 +81,7 @@
             web._mruby_compile_callback(msg.content[0], msg.content[1], msg.content[2]);
             return;
         case "READY":
-            web.workerSendMessage("log", "WORKER IS READY");
-            return;
-        case "WAITFOR":
-            var func = msg.content[0];
-            var args = msg.content[1];
-            // We need to call web._resp as a full path to make sure uglifyjs doesn't shrink it
-            web._resp = {};
-            web._resp.original_func = func;
-            func = eval(func);
-            args = args.map(function(e) {
-                if (typeof e === "string" && e.indexOf("(function") === 0 && e.slice("-4") === "})()") {
-                    return eval(e);
-                } else {
-                    return e;
-                }
-            });
-            web._resp.return = func.apply(null, args);
-            // --- DEVELOPMENT ---
-            console.log("WAITFOR", func.toString(), args, web._resp.return);
-            // --- DEVELOPMENT ---
-            if (!web._resp.return) return;
-            web.SEND("WAITFOR", JSON.stringify(web._resp));
+            web.worker.send("log", "Worker ready.");
             return;
         }
     }
@@ -138,7 +128,7 @@
     }
 
     function getCode(k) {
-        console.log("GETCODE", k, web.paths.code[k]);
+        console.log("Getting", k, web.paths.code[k]);
         if (web.code[k]) return;
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
